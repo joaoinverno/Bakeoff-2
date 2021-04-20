@@ -187,8 +187,8 @@ function drawTarget(i)
   }        
 
   else if(trials[current_trial+1] === i) {
-    stroke(color(0,255,117));
-    strokeWeight(3);
+    //stroke(color(0,255,117));
+    //strokeWeight(3);
     fill(color(0,255,117));
     circle(target.x, target.y, target.w);
   }
