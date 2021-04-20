@@ -62,10 +62,12 @@ function draw()
     // Print trial count at the top left-corner of the canvas
     fill(color(255,255,255));
     textAlign(LEFT);
+    textFont("Arial", 18);
     text("Trial " + (current_trial + 1) + " of " + trials.length, 50, 20);
     
     // Draw all 16 targets
-	for (var i = 0; i < 16; i++) drawTarget(i);
+    drawLine();
+	  for (var i = 0; i < 16; i++) drawTarget(i);
   }
 }
 
@@ -82,6 +84,7 @@ function printAndSavePerformance()
   
   background(color(0,0,0));   // clears screen
   fill(color(255,255,255));   // set text fill color to white
+  textFont("Arial", 18);
   text(timestamp, 10, 20);    // display time on screen (top-left corner)
   
   textAlign(CENTER);
@@ -164,13 +167,21 @@ function mousePressed()
   }
 }
 
+function drawLine()
+{
+  let target = getTargetBounds(trials[current_trial]);  
+  let target_next = getTargetBounds(trials[current_trial+1]);
+  
+  stroke(color(255,245,7));
+  line(target.x, target.y, target_next.x, target_next.y);
+}
+
 // Draw target on-screen
 function drawTarget(i)
 {
   // Get the location and size for target (i)
-  let s = 'Next'
+  let s = 'NEXT'
   let target = getTargetBounds(i);  
-  let target_next = getTargetBounds(trials[current_trial+1]);
 
   // Check whether this target is the target the user should be trying to select
   if (trials[current_trial] === i) 
@@ -180,20 +191,21 @@ function drawTarget(i)
     noStroke();
     fill(color(0,250,25));
     circle(target.x, target.y, target.w);
-    stroke(color(255,245,7));
-    line(target.x, target.y, target_next.x-5, target_next.y+5);
     // Remember you are allowed to access targets (i-1) and (i+1)
     // if this is the target the user should be trying to select
     //
   }        
 
   else if(trials[current_trial+1] === i) {
-    stroke(color(255,0,0));
-    strokeWeight(3);
-    fill(color(255,0,0));
+    //stroke(color(255,0,0));
+    //strokeWeight(3);
+    fill(color(183,255,164));
     circle(target.x, target.y, target.w);
     fill(0, 0, 0);
-    text(s, target.x-20, target.y-10, 70, 80);
+    textSize(PPCM * 0.5);
+    textFont("Helvetica");
+    textAlign(CENTER, CENTER); 
+    text(s, target.x-(target.w/2), target.y-(target.w/2), target.w, target.w);
   }
   // Draws the target
   else {
