@@ -57,7 +57,7 @@ function draw()
   if (draw_targets)
   {
     // The user is interacting with the 4x4 target grid
-    background(color(0,0,0));        // sets background to black
+    background(color(153,214,211));        // sets background to black
     
     // Print trial count at the top left-corner of the canvas
     fill(color(255,255,255));
@@ -173,6 +173,7 @@ function drawLine()
   let target_next = getTargetBounds(trials[current_trial+1]);
   
   stroke(color(255,245,7));
+  strokeWeight(5);
   line(target.x, target.y, target_next.x, target_next.y);
 }
 
@@ -189,23 +190,31 @@ function drawTarget(i)
     // Highlights the target the user should be trying to select
     // with a white border
     noStroke();
-    fill(color(0,250,25));
+    fill(color(153,60,60));
     circle(target.x, target.y, target.w);
+    if (trials[current_trial+1] === trials[current_trial]) {
+      fill(color(153,60,60));
+      circle(target.x, target.y, target.w);
+      fill(255, 255, 255);
+      textSize(PPCM * 0.5);
+      textFont("Helvetica");
+      textAlign(CENTER, CENTER); 
+      text("x2", target.x, target.y);
+    }
     // Remember you are allowed to access targets (i-1) and (i+1)
     // if this is the target the user should be trying to select
     //
-  }        
+  }
 
   else if(trials[current_trial+1] === i) {
-    //stroke(color(255,0,0));
-    //strokeWeight(3);
-    fill(color(183,255,164));
+    noStroke();
+    fill(color(235,155,155));
     circle(target.x, target.y, target.w);
     fill(0, 0, 0);
     textSize(PPCM * 0.5);
     textFont("Helvetica");
     textAlign(CENTER, CENTER); 
-    text(s, target.x-(target.w/2), target.y-(target.w/2), target.w, target.w);
+    text(s, target.x, target.y);
   }
   // Draws the target
   else {
