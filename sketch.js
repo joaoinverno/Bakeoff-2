@@ -27,6 +27,8 @@ let trials 			 = [];     // contains the order of targets that activate in the t
 let current_trial    = 0;      // the current trial number (indexes into trials array above)
 let attempt          = 0;      // users complete each test twice to account for practice (attemps 0 and 1)
 let fitts_IDs        = [];     // add the Fitts ID for each selection here (-1 when there is a miss)
+let mouse_x_value    = 0;      // saves x value of last click - used for determining fitts IDs
+let mouse_y_value    = 0;      // saves y value of last click - used for determining fitts IDs
 
 // Target class (position and width)
 class Target
@@ -81,6 +83,10 @@ function printAndSavePerformance()
   let penalty           = constrain((((parseFloat(95) - (parseFloat(hits * 100) / parseFloat(hits + misses))) * 0.2)), 0, 100);
   let target_w_penalty	= nf(((test_time) / parseFloat(hits + misses) + penalty), 0, 3);
   let timestamp         = day() + "/" + month() + "/" + year() + "  " + hour() + ":" + minute() + ":" + second();
+  let x_of_leftside     = 300;
+  let x_of_rightside    = 1100;
+  let y_level           = 300;
+  let aux               = 0;
   
   background(color(0,0,0));   // clears screen
   fill(color(255,255,255));   // set text fill color to white
@@ -94,10 +100,50 @@ function printAndSavePerformance()
   text("Accuracy: " + accuracy + "%", width/2, 140);
   text("Total time taken: " + test_time + "s", width/2, 160);
   text("Average time per target: " + time_per_target + "s", width/2, 180);
-  text("Average time for each target (+ penalty): " + target_w_penalty + "s", width/2, 220);
+  text("Average time for each target (+ penalty): " + target_w_penalty + "s", width/2, 200);
   
   // Print Fitts IDS (one per target, -1 if failed selection)
-  // 
+  text("Fitts Index of Performance", width/2, 240);
+  for (var it = 0; it < 48; it++) {
+    if(it == 0)
+      {
+        text("Target 1: ----", x_of_leftside, y_level);
+        continue;
+      }
+    //prints on the left
+    if(it % 2 == 0)
+      {
+        if(fitts_IDs[it] == -1)
+          {
+            aux = it;
+            aux++;
+            text("Target " + aux +": Missed", x_of_leftside, y_level);
+          }
+        else
+          {
+            aux = it;
+            aux++;
+            text("Target " + aux +": " + round(fitts_IDs[it],3), x_of_leftside, y_level);
+          }
+      }
+    //prints on the right
+    if(it % 2 != 0)
+      {
+        if(fitts_IDs[it] == -1)
+          {
+            aux = it;
+            aux++;
+            text("Target " + aux +": Missed", x_of_rightside, y_level);
+          }
+        else
+          {
+            aux = it;
+            aux++;
+            text("Target " + aux +": " + round(fitts_IDs[it],3), x_of_rightside, y_level);
+          }
+        y_level = y_level + 22;
+      }
+  }
 
   // Saves results (DO NOT CHANGE!)
   let attempt_data = 
@@ -139,13 +185,26 @@ function mousePressed()
   if (draw_targets)
   {
     // Get the location and size of the target the user should be trying to select
-    let target = getTargetBounds(trials[current_trial]);   
+    let target = getTargetBounds(trials[current_trial]);
+    let fitts_value = 0;
     
     // Check to see if the mouse cursor is inside the target bounds,
     // increasing either the 'hits' or 'misses' counters
-    if (dist(target.x, target.y, mouseX, mouseY) < target.w/2)  hits++;                                                       
-    else misses++;
+    if (dist(target.x, target.y, mouseX, mouseY) < target.w/2){
+      hits++;
+      if(current_trial != 0) 
+         {
+           fitts_value = log((dist(mouse_x_value, mouse_y_value, target.x, target.y)/target.w) + 1)/log(2); 
+           fitts_IDs[current_trial] = fitts_value;
+         }
+    }                                                        
+    else{
+      misses++;
+      fitts_IDs[current_trial] = -1;
+    } 
     
+    mouse_x_value = mouseX;
+    mouse_y_value = mouseY;
     current_trial++;                 // Move on to the next trial/target
     
     // Check if the user has completed all 48 trials
