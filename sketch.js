@@ -83,8 +83,8 @@ function printAndSavePerformance()
   let penalty           = constrain((((parseFloat(95) - (parseFloat(hits * 100) / parseFloat(hits + misses))) * 0.2)), 0, 100);
   let target_w_penalty	= nf(((test_time) / parseFloat(hits + misses) + penalty), 0, 3);
   let timestamp         = day() + "/" + month() + "/" + year() + "  " + hour() + ":" + minute() + ":" + second();
-  let x_of_leftside     = 300;
-  let x_of_rightside    = 1230;
+  let x_of_leftside     = width/2 - 300;
+  let x_of_rightside    = width/2 + 300;
   let y_level           = 300;
   let aux               = 0;
   
