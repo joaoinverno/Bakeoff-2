@@ -41,6 +41,15 @@ class Target
   }
 }
 
+let correct;
+let wrong;
+
+function preload()
+{
+  correct = loadSound('sound/correct.wav');
+  wrong = loadSound('sound/wrong.wav');
+}
+
 // Runs once at the start
 function setup()
 {
@@ -191,6 +200,7 @@ function mousePressed()
     // Check to see if the mouse cursor is inside the target bounds,
     // increasing either the 'hits' or 'misses' counters
     if (dist(target.x, target.y, mouseX, mouseY) < target.w/2){
+      correct.play();
       hits++;
       if(current_trial != 0) 
          {
@@ -199,6 +209,7 @@ function mousePressed()
          }
     }                                                        
     else{
+      wrong.play();
       misses++;
       fitts_IDs[current_trial] = -1;
     } 
@@ -267,7 +278,7 @@ function drawTarget(i)
 
   else if(trials[current_trial+1] === i) {
     noStroke();
-    fill(color(235,155,155));
+    fill(color(230,134,21));
     circle(target.x, target.y, target.w);
     fill(0, 0, 0);
     textSize(PPCM * 0.5);
