@@ -262,7 +262,7 @@ function drawTarget(i)
     fill(color(153,60,60));
     circle(target.x, target.y, target.w);
     fill(color(255,255,255));
-    circle(target.x, target.y, target.w * 0.8);
+    circle(target.x, target.y, target.w * 0.5);
     if (trials[current_trial+1] === trials[current_trial]) {
       fill(color(153,60,60));
       circle(target.x, target.y, target.w);
