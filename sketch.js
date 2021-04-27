@@ -46,8 +46,8 @@ let wrong;
 
 function preload()
 {
-  correct = loadSound('sound/correct.wav');
-  wrong = loadSound('sound/wrong.wav');
+  correct = loadSound('sound/correct.mp3');
+  wrong = loadSound('sound/wrong.mp3');
 }
 
 // Runs once at the start
@@ -79,6 +79,16 @@ function draw()
     // Draw all 16 targets
     drawLine();
 	  for (var i = 0; i < 16; i++) drawTarget(i);
+    let target = getTargetBounds(trials[current_trial]);
+    if (dist(target.x, target.y, mouseX, mouseY) < target.w/2)
+    {
+      noStroke();
+      stroke(color(255,245,7));
+      strokeWeight(6);
+      fill(color(0,0,0,0));
+      circle(target.x, target.y, target.w);
+      noStroke()
+    }
   }
 }
 
@@ -243,7 +253,7 @@ function drawLine()
   let target_next = getTargetBounds(trials[current_trial+1]);
   
   stroke(color(255,245,7));
-  strokeWeight(5);
+  strokeWeight(10);
   line(target.x, target.y, target_next.x, target_next.y);
 }
 
@@ -262,10 +272,16 @@ function drawTarget(i)
     fill(color(153,60,60));
     circle(target.x, target.y, target.w);
     fill(color(255,255,255));
-    circle(target.x, target.y, target.w * 0.5);
+    circle(target.x, target.y, target.w * 0.8);
+    fill(color(153,60,60));
+    circle(target.x, target.y, target.w * 0.6);
     if (trials[current_trial+1] === trials[current_trial]) {
       fill(color(153,60,60));
       circle(target.x, target.y, target.w);
+      fill(color(255,255,255));
+      circle(target.x, target.y, target.w * 0.8);
+      fill(color(153,60,60));
+      circle(target.x, target.y, target.w * 0.6);
       fill(255, 255, 255);
       textSize(PPCM * 0.5);
       textFont("Helvetica");
@@ -279,9 +295,9 @@ function drawTarget(i)
 
   else if(trials[current_trial+1] === i) {
     noStroke();
-    fill(color(230,134,21));
+    fill(color(0,0,0));
     circle(target.x, target.y, target.w);
-    fill(0, 0, 0);
+    fill(255, 255, 255);
     textSize(PPCM * 0.5);
     textFont("Helvetica");
     textAlign(CENTER, CENTER); 
