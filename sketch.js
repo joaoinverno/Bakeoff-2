@@ -7,7 +7,7 @@
 
 // Database (CHANGE THESE!)
 const GROUP_NUMBER   = 45;      // Add your group number here as an integer (e.g., 2, 3)
-const BAKE_OFF_DAY   = true;  // Set to 'true' before sharing during the simulation and bake-off days
+const BAKE_OFF_DAY   = false;  // Set to 'true' before sharing during the simulation and bake-off days
 
 // Target and grid properties (DO NOT CHANGE!)
 let PPI, PPCM;
@@ -46,8 +46,8 @@ let wrong;
 
 function preload()
 {
-  correct = loadSound('sound/correct.mp3');
-  wrong = loadSound('sound/wrong.mp3');
+  correct = loadSound('sound/soft-hitnormal.wav');
+  wrong = loadSound('sound/monkeymiss.wav');
 }
 
 // Runs once at the start
@@ -67,6 +67,7 @@ function draw()
 {
   if (draw_targets)
   {
+    cursor("cursors/smaller-green-cursor.png");
     // The user is interacting with the 4x4 target grid
     background(color(153,214,211));        // sets background to black
     
