@@ -46,8 +46,8 @@ let wrong;
 
 function preload()
 {
-  correct = loadSound('sound/soft-hitnormal.wav');
-  wrong = loadSound('sound/monkeymiss.wav');
+  correct = loadSound('sound/mario_coin.mp3');
+  wrong = loadSound('sound/wrong.wav');
 }
 
 // Runs once at the start
