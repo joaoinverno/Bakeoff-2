@@ -46,7 +46,7 @@ let wrong;
 
 function preload()
 {
-  correct = loadSound('sound/mario_coin2.mp3');
+  correct = loadSound('sound/correct.mp3');
   wrong = loadSound('sound/wrong.wav');
 }
 
